@@ -56,30 +56,37 @@ def read_problem(filename):
 
             elif section == "destinations":
                 destinations = [
-                    int(value.strip())
-                    for value in line.split(";")
-                    if value.strip()
+                    int(value.strip()) 
+                    for value in line.split(";") # Splits the text wherever it finds a semicolon.
+                    if value.strip() # Remove whitespace around each value.
                 ]
 
-    if not nodes:
+    if not nodes: # If the nodes dictionary is empty.
         raise ValueError("No nodes found in the input file.")
 
-    if origin not in nodes:
+    if origin not in nodes: # Checks whether the origin exists in the dictionary.
         raise ValueError("Origin is missing or invalid.")
 
+    # Checks whether the destination list is empty.
+    # Checks whether at least one destination does not exist in the graph.
     if not destinations or any(d not in nodes for d in destinations):
         raise ValueError("Destinations are missing or invalid.")
 
+    # Creates a dictionary containing every node, with an initially empty list of heighbours.
     graph = {node: [] for node in nodes}
 
+    # Loops through every edge in the list.
     for start, end, cost in edges:
         if start not in nodes or end not in nodes:
             raise ValueError("An edge refers to an unknown node.")
 
+        # Adds the neighbour and edge cost to the starting node's adjacency list.
         graph[start].append((end, cost))
 
+    # Loops through by node ID, from smallest to largest.
     for node in graph:
-        graph[node].sort(key=lambda edge: edge[0])
+        # Sort using the first item of each edge tuple, which is the neighbour's node ID.
+        graph[node].sort(key=lambda edge: edge[0]) 
 
     return nodes, graph, origin, destinations
 
