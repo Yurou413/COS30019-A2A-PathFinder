@@ -91,6 +91,7 @@ def read_problem(filename):
     return nodes, graph, origin, destinations
 
 
+# Depth-First Search
 def dfs(graph, origin, destinations):
     # Each stack entry contains the current node and its path.
     stack = [(origin, [origin])] # The initial node is 2, so one search node has been created.
