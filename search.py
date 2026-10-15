@@ -2,6 +2,7 @@
 import sys
 import re
 from collections import deque
+import heapq
 
 
 def read_problem(filename):
@@ -133,6 +134,50 @@ def bfs(graph, origin, destinations):
 
     return None, nodes_created, []
 
+def heuristic(nodes, node, destinations):
+    x, y = nodes[node]
+    return min(
+        ((x - nodes[goal][0]) ** 2 + (y - nodes[goal][1]) ** 2) ** 0.5
+        for goal in destinations
+    )
+
+def gbfs(nodes, graph, origin, destinations):
+    sequence = 0
+
+    frontier = [
+        (
+            heuristic(nodes, origin, destinations),
+            sequence,
+            origin,
+            [origin]
+        )
+    ]
+
+    nodes_created = 1
+
+    while frontier:
+        h, order, current, path = heapq.heappop(frontier)
+
+        if current in destinations:
+            return current, nodes_created, path
+
+        for neighbour, cost in graph[current]:
+            if neighbour not in path:
+                sequence += 1
+
+                new_path = path + [neighbour]
+                new_h = heuristic(nodes, neighbour, destinations)
+
+                heapq.heappush(
+                    frontier,
+                    (new_h, sequence, neighbour, new_path)
+                )
+
+                nodes_created += 1
+
+    return None, nodes_created, []
+
+
 
 def main():
     if len(sys.argv) != 3:
@@ -149,8 +194,10 @@ def main():
             goal, count, path = dfs(graph, origin, destinations)
         elif method == "BFS":
             goal, count, path = bfs(graph, origin, destinations)
+        elif method == "GBFS":
+            goal, count, path = gbfs(nodes, graph, origin, destinations)
         else:
-            print("Unsupported method. Use DFS or BFS.")
+            print("Unsupported method. Use DFS, BFS or GBFS.")
             return
 
         if goal is None:
