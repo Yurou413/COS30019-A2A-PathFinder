@@ -99,12 +99,12 @@ def dfs(graph, origin, destinations):
     nodes_created = 1
 
     while stack:
-        current, path = stack.pop()
+        current, path = stack.pop() # Remove the most recently added entry from the stack.
 
         if current in destinations:
             return current, nodes_created, path
 
-        # Add neighbouring nodes to the stack.
+        # Add neighbouring nodes to the stack. Smaller node ID is explored first.
         for neighbour, cost in reversed(graph[current]):
             # Avoid revisiting a node on the current path.
             if neighbour not in path:
@@ -112,7 +112,7 @@ def dfs(graph, origin, destinations):
                 nodes_created += 1
 
     return None, nodes_created, []
-    # 5, 7 means goal node 5 was found after 7 search nodes had been created.
+    
 
 
 def bfs(graph, origin, destinations):
@@ -127,9 +127,9 @@ def bfs(graph, origin, destinations):
             return current, nodes_created, path
 
         for neighbour, cost in graph[current]:
-            # Avoid revisiting a node on the current path.
+            # Avoid cycles within the current path.
             if neighbour not in path:
-                queue.append((neighbour, path + [neighbour]))
+                queue.append((neighbour, path + [neighbour])) # Add new search entries.
                 nodes_created += 1
 
     return None, nodes_created, []
