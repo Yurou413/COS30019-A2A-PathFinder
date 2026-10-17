@@ -1,38 +1,46 @@
+
 import math
-import heapq 
+import heapq
 from itertools import count
 
 
-def custom_search_2(nodes, edges, origin, destinations):
+def custom_search_2(nodes, graph, origin, destinations):
 
-    # Maximum geometric length of any edge
+    # Find the maximum geometric length of any edge
     max_edge_length = 0
 
-    for start, end, cost in edges:
-        x1, y1 = nodes[start]
-        x2, y2 = nodes[end]
+    for start, neighbours in graph.items():
+        for end, cost in neighbours:
+            x1, y1 = nodes[start]
+            x2, y2 = nodes[end]
 
-        length = math.hypot(x2 - x1, y2 - y1)
-        max_edge_length = max(max_edge_length, length)
+            length = math.hypot(x2 - x1, y2 - y1)
+            max_edge_length = max(max_edge_length, length)
 
+    # Estimate the minimum number of moves remaining
     def heuristic(node):
         if not destinations or max_edge_length == 0:
             return 0
 
         x1, y1 = nodes[node]
-        distances = []
 
-        for goal in destinations:
-            x2, y2 = nodes[goal]
-            distances.append(math.hypot(x2 - x1, y2 - y1))
+        distances = [
+            math.hypot(
+                x2 - x1,
+                y2 - y1
+            )
+            for goal in destinations
+            for x2, y2 in [nodes[goal]]
+        ]
 
-        # Lower bound on the number of remaining edges
         return math.floor(min(distances) / max_edge_length)
 
     tie_breaker = count()
+
     frontier = [
         (heuristic(origin), 0, next(tie_breaker), origin, [origin])
     ]
+
     best_moves = {origin: 0}
     nodes_created = 1
 
@@ -63,6 +71,7 @@ def custom_search_2(nodes, edges, origin, destinations):
                         path + [neighbour]
                     )
                 )
+
                 nodes_created += 1
 
     return None, nodes_created, []
