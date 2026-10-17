@@ -6,7 +6,8 @@ from Algorithms.dfs import dfs
 from Algorithms.bfs import bfs
 from Algorithms.gbfs import gbfs
 from Algorithms.astar import astar
-
+from Algorithms.cus1 import uniform_cost_search
+from Algorithms.cus2 import custom_search_2
 
 def main():
     if len(sys.argv) != 3:
@@ -27,8 +28,12 @@ def main():
             goal, count, path = gbfs(nodes, graph, origin, destinations)
         elif method == "AS":
             goal, count, path = astar(nodes, graph, origin, destinations)
+        elif method == "CUS1":
+            goal, count, path = uniform_cost_search(nodes, graph, origin, destinations)
+        elif method == "CUS2":
+            goal, count, path = custom_search_2(nodes, graph, origin, destinations)
         else:
-            print("Unsupported method. Use DFS, BFS, GBFS or A Star.")
+            print("Unsupported method. Use DFS, BFS, GBFS, AS, CUS1 or CUS2.")
             return
 
         if goal is None:
