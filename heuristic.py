@@ -1,3 +1,3 @@
 def heuristic(nodes, node, destinations):
-    """Return zero so the heuristic will never overestimates the remaining cost."""
+    # A zero heuristic never overestimates the remaining path cost.
     return 0
