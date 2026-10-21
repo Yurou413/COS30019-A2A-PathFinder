@@ -2,10 +2,12 @@
 Assignment 2A-Tree Based Search
 ## Team
 Team ID: Sushi
-Members: 1. Vivian Yee Shan THEN (104396350)
-         2. Hui Ming TANG (104399731)
-         3. Yu Rou YAP (105805297)
-         4. Violet Grace Jia Yun LIM (105806698)
+Members:
+
+1. Vivian Yee Shan THEN (104396350)
+2. Hui Ming TANG (104399731)
+3. Yu Rou YAP (105805297)
+4. Violet Grace Jia Yun LIM (105806698)
 ## Overview
 
 PathFinder finds a path from a starting node to one of the destination nodes. The graph has directed edges with different costs.
