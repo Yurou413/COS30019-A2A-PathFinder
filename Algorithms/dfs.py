@@ -10,7 +10,9 @@ def dfs(graph, origin, destinations):
             return current, nodes_created, path
 
         # Add neighbouring nodes to the stack. Smaller node ID is explored first.
-        for neighbour, cost in reversed(graph[current]):
+        for neighbour, cost in reversed(
+            sorted(graph.get(current, []), key=lambda edge: edge[0])
+        ):
             # Avoid revisiting a node on the current path.
             if neighbour not in path:
                 stack.append((neighbour, path + [neighbour]))

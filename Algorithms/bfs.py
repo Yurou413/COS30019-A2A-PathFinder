@@ -11,7 +11,9 @@ def bfs(graph, origin, destinations):
         if current in destinations:
             return current, nodes_created, path
 
-        for neighbour, cost in graph[current]:
+        for neighbour, cost in sorted(
+        graph.get(current, []), key=lambda edge: edge[0]
+        ):
             # Avoid cycles within the current path.
             if neighbour not in path:
                 queue.append((neighbour, path + [neighbour])) # Add new search entries.

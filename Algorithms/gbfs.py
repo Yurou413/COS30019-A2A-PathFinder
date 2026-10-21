@@ -22,7 +22,9 @@ def gbfs(nodes, graph, origin, destinations):
         if current in destinations:
             return current, nodes_created, path
 
-        for neighbour, cost in graph[current]:
+        for neighbour, cost in sorted(
+            graph.get(current, []), key=lambda edge: edge[0]
+        ):
             if neighbour not in path:
                 sequence += 1
 
