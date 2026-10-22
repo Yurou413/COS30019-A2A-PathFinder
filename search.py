@@ -29,7 +29,7 @@ def main():
         elif method == "AS":
             goal, count, path = astar(nodes, graph, origin, destinations)
         elif method == "CUS1":
-            goal, count, path = uniform_cost_search(nodes, graph, origin, destinations)
+            goal, count, path = uniform_cost_search(graph, origin, destinations)
         elif method == "CUS2":
             goal, count, path = custom_search_2(nodes, graph, origin, destinations)
         else:
