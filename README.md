@@ -148,17 +148,17 @@ Example:
 
 ```text
 problems/PathFinder-test-1.txt AS
-4 11
-2 -> 1 -> 4
+5 8
+2 -> 3 -> 5
 ```
 
 | Output | Meaning |
 |---|---|
 | `problems/PathFinder-test-1.txt` | The test file used |
 | `AS` | The selected search method |
-| `4` | The destination reached |
-| `11` | The number of search entries created |
-| `2 -> 1 -> 4` | The path from the start to the destination |
+| `5` | The destination reached |
+| `8` | The number of search entries created |
+| `2 -> 3 -> 5` | The path from the start to the destination |
 
 The number of created entries includes the starting entry. The same graph node can be counted more than once if it is reached through different paths.
 
@@ -185,7 +185,7 @@ BFS and CUS2 find a path with the fewest moves. This may not be the cheapest pat
 
 DFS and GBFS do not always find the cheapest path.
 
-A* with the current zero heuristic and CUS1 find the cheapest path when edge costs are nonnegative.
+CUS1 finds the cheapest path when edge costs are nonnegative. A* also found minimum-cost paths in the recorded tests, but its current Euclidean heuristic does not guarantee this for every graph.
 
 ## Implementation Notes
 
@@ -213,15 +213,7 @@ CUS1 and CUS2 use dictionaries to keep the best cost or move count found for eac
 
 ### Shared Heuristic
 
-The shared heuristic in `heuristic.py` currently returns:
-
-```python
-0
-```
-
-For nonnegative edge costs, zero does not overestimate the remaining cost. However, it gives no information about which direction is closer to a goal.
-
-This makes GBFS work like BFS, while A* uses the cost travelled so far.
+GBFS and A* use the straight-line distance to the nearest destination as their heuristic. GBFS selects entries using this estimate, while A* adds it to the cost travelled so far. CUS2 uses its own heuristic based on the estimated number of remaining moves.
 
 ### CUS2 Heuristic
 
@@ -299,7 +291,7 @@ These commands are for typing directly into Command Prompt. If they are saved in
 
 | Item | Current situation |
 |---|---|
-| Zero heuristic | GBFS works like BFS. We still need to confirm whether a more useful heuristic is required. |
+| Euclidean heuristic | Straight-line distance may overestimate the remaining cost because edge costs are not always based on geometric distance. A* is therefore not guaranteed to find the cheapest path for every graph. |
 | CUS1 and CUS2 | They use global dictionaries to reduce repeated searches. We still need to confirm whether this is allowed under the tree-based search requirement. |
 | Input values | Negative numbers and decimal numbers are not supported. |
 | Input errors | Some wrongly written node or edge lines may be skipped without an error message. |
