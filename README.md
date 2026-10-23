@@ -26,7 +26,7 @@ The program has six search methods.
 
 ## Requirements
 
-- Python 3
+- Python 3.8 or later
 - No extra Python packages are needed.
 
 ## Folder Structure
@@ -185,7 +185,7 @@ BFS and CUS2 find a path with the fewest moves. This may not be the cheapest pat
 
 DFS and GBFS do not always find the cheapest path.
 
-CUS1 finds the cheapest path when edge costs are nonnegative. A* also found minimum-cost paths in the recorded tests, but its current Euclidean heuristic does not guarantee this for every graph.
+CUS1 and A* find minimum-cost paths with nonnegative edge costs. A* uses a cost-scaled Euclidean heuristic that does not overestimate the remaining cost.
 
 ## Implementation Notes
 
@@ -213,7 +213,7 @@ CUS1 and CUS2 use dictionaries to keep the best cost or move count found for eac
 
 ### Shared Heuristic
 
-GBFS and A* use the straight-line distance to the nearest destination as their heuristic. GBFS selects entries using this estimate, while A* adds it to the cost travelled so far. CUS2 uses its own heuristic based on the estimated number of remaining moves.
+GBFS and A* use the straight-line distance to the nearest destination multiplied by a cost scale. The scale is the smallest cost-to-distance ratio among positive-length edges. If no such edges exist, the scale is zero. GBFS uses this estimate, while A* adds it to the cost travelled so far. CUS2 uses its own heuristic to estimate remaining moves.
 
 ### CUS2 Heuristic
 
@@ -291,7 +291,7 @@ These commands are for typing directly into Command Prompt. If they are saved in
 
 | Item | Current situation |
 |---|---|
-| Euclidean heuristic | Straight-line distance may overestimate the remaining cost because edge costs are not always based on geometric distance. A* is therefore not guaranteed to find the cheapest path for every graph. |
+| Cost-scaled heuristic | If a positive-length edge has zero cost, the scale becomes zero. A* then behaves like Uniform-Cost Search, while GBFS behaves like BFS. |
 | CUS1 and CUS2 | They use global dictionaries to reduce repeated searches. We still need to confirm whether this is allowed under the tree-based search requirement. |
 | Input values | Negative numbers and decimal numbers are not supported. |
 | Input errors | Some wrongly written node or edge lines may be skipped without an error message. |
