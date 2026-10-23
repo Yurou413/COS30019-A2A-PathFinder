@@ -80,7 +80,7 @@ problems/PathFinder-test-5.txt GBFS
 5 5
 2 -> 3 -> 5
 problems/PathFinder-test-5.txt AS
-4 5
+4 7
 2 -> 1 -> 4
 problems/PathFinder-test-5.txt CUS1
 4 6
@@ -206,7 +206,7 @@ problems/PathFinder-test-12.txt GBFS
 4 4
 1 -> 2 -> 4
 problems/PathFinder-test-12.txt AS
-4 4
+4 5
 1 -> 2 -> 4
 problems/PathFinder-test-12.txt CUS1
 4 4

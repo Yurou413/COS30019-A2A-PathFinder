@@ -1,18 +1,29 @@
 import math
 
-def heuristic(nodes, node, destinations):
-    x1, y1 = nodes[node]
 
-    # Find the estimated distance to the nearest destination
-    distances = []
+def get_cost_scale(nodes, graph):
+    ratios = []
 
-    for destination in destinations:
-        x2, y2 = nodes[destination]
+    for start, neighbours in graph.items():
+        for end, cost in neighbours:
+            if cost < 0:
+                raise ValueError("Edge costs must be nonnegative.")
 
-        distance = math.sqrt(
-            (x2 - x1) ** 2 + (y2 - y1) ** 2
-        )
+            length = math.dist(nodes[start], nodes[end])
 
-        distances.append(distance)
+            if length > 0:
+                ratios.append(cost / length)
 
-    return min(distances)
+    return min(ratios) if ratios else 0.0
+
+
+def heuristic(nodes, node, destinations, cost_scale):
+    if cost_scale == 0:
+        return 0.0
+
+    nearest_distance = min(
+        math.dist(nodes[node], nodes[goal])
+        for goal in destinations
+    )
+
+    return cost_scale * nearest_distance
