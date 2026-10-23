@@ -1,6 +1,6 @@
 def dfs(graph, origin, destinations):
     # Each stack entry contains the current node and its path.
-    stack = [(origin, [origin])] # The initial node is 2, so one search node has been created.
+    stack = [(origin, [origin])] # The starting entry counts as one created search entry.
     nodes_created = 1
 
     while stack:
